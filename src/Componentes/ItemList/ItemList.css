@@ -1,0 +1,95 @@
+.manage-item-row {
+    background: rgba(15, 23, 42, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+}
+
+.manage-item-row:hover {
+    border-color: rgba(99, 102, 241, 0.25) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: translateX(4px);
+}
+
+.manage-item-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.manage-item-row:hover .manage-item-img {
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: scale(1.05);
+}
+
+.item-category-badge {
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.item-price-badge {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.2) !important;
+    color: #10b981 !important;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+}
+
+.item-delete-btn {
+    background: rgba(244, 63, 94, 0.08) !important;
+    border: 1px solid rgba(244, 63, 94, 0.15) !important;
+    color: #f43f5e !important;
+    transition: all 0.2s ease;
+    border-radius: 8px !important;
+    padding: 6px 10px !important;
+}
+
+.item-delete-btn:hover {
+    background: #f43f5e !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 12px rgba(244, 63, 94, 0.4) !important;
+}
+
+.item-import-btn {
+    background: rgba(99, 102, 241, 0.15) !important;
+    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+    color: #a5b4fc !important;
+    transition: all 0.2s ease;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+}
+
+.item-import-btn:hover {
+    background: #6366f1 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.4) !important;
+}
+
+.item-export-btn {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
+    color: #34d399 !important;
+    transition: all 0.2s ease;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+}
+
+.item-export-btn:hover {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4) !important;
+}

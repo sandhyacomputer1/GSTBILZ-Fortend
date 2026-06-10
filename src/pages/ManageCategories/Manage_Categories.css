@@ -1,0 +1,24 @@
+.category-container {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    height: calc(100vh - 56px);
+    box-sizing: border-box;
+    background-color: var(--bg-obsidian);
+}
+
+.left-column {
+    flex: 0.35;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-column {
+    flex: 0.65;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+}

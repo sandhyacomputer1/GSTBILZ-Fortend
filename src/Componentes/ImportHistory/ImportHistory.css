@@ -1,0 +1,197 @@
+/* ImportHistory page styles */
+
+.ih-container {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ih-header { display: flex; align-items: flex-start; justify-content: space-between; }
+.ih-header-left { display: flex; flex-direction: column; gap: 4px; }
+
+.ih-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.ih-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    margin: 0;
+}
+
+/* Summary cards */
+.ih-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.ih-sum-card {
+    padding: 18px 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.ih-sum-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.ih-sum-lbl {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Search */
+.ih-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 10px;
+}
+
+.ih-search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 0.88rem;
+}
+
+.ih-search-input::placeholder { color: rgba(255,255,255,0.3); }
+
+.ih-clear-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+.ih-clear-btn:hover { color: var(--neon-rose); }
+
+/* Table card */
+.ih-table-card {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.ih-loading, .ih-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    gap: 12px;
+    color: var(--text-secondary);
+}
+
+.text-indigo { color: var(--neon-indigo) !important; }
+
+.ih-table-wrap { overflow-x: auto; }
+
+.ih-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.ih-table thead tr {
+    background: rgba(15,23,42,0.8);
+    position: sticky;
+    top: 0;
+}
+
+.ih-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    white-space: nowrap;
+}
+
+.ih-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.ih-table tbody tr:hover { background: rgba(99,102,241,0.04); }
+
+.ih-td-num  { color: var(--text-secondary); font-size: 0.75rem; }
+.ih-td-file { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ih-td-date { color: var(--text-secondary); font-size: 0.78rem; white-space: nowrap; }
+.ih-td-center { text-align: center; }
+.ih-td-success { color: var(--neon-emerald); font-weight: 600; }
+.ih-td-fail    { color: var(--neon-rose);    font-weight: 600; }
+.ih-td-dup     { color: var(--neon-blue);    font-weight: 600; }
+.ih-td-time    { color: var(--text-secondary); font-size: 0.78rem; }
+
+/* Type badges */
+.ih-type-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.ih-type-badge.excel { background: rgba(16,185,129,0.12); color: var(--neon-emerald); }
+.ih-type-badge.csv   { background: rgba(6,182,212,0.12);  color: var(--neon-blue); }
+.ih-type-badge.pdf   { background: rgba(244,63,94,0.12);  color: var(--neon-rose); }
+.ih-type-badge.docx  { background: rgba(99,102,241,0.12); color: var(--neon-indigo); }
+.ih-type-badge.multi { background: rgba(99,102,241,0.12); color: var(--neon-indigo); }
+
+/* Success rate bar */
+.ih-rate-wrap {
+    width: 90px;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ih-rate-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.ih-rate-bar.good { background: var(--neon-emerald); }
+.ih-rate-bar.mid  { background: #f59e0b; }
+.ih-rate-bar.bad  { background: var(--neon-rose); }
+
+.ih-rate-label {
+    position: absolute;
+    right: -32px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ih-summary-cards { grid-template-columns: repeat(2, 1fr); }
+    .ih-container { padding: 14px; }
+}

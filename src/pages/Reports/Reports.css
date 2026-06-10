@@ -1,0 +1,212 @@
+.reports-wrapper {
+  min-height: calc(100vh - 70px);
+  padding: 2rem;
+  background-color: var(--bg-obsidian);
+}
+
+.reports-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.reports-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.reports-subtitle {
+  font-size: 0.95rem;
+}
+
+/* Tab buttons */
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tab-btn.active {
+  color: #ffffff;
+  background: var(--neon-indigo);
+  box-shadow: 0 4px 12px var(--neon-indigo-glow);
+}
+
+/* Stat Grid */
+.reports-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.report-stat-card {
+  padding: 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.report-stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.report-stat-card.border-indigo {
+  border-left: 4px solid var(--neon-indigo) !important;
+}
+
+.report-stat-card.border-blue {
+  border-left: 4px solid var(--neon-blue) !important;
+}
+
+.report-stat-card.border-emerald {
+  border-left: 4px solid var(--neon-emerald) !important;
+}
+
+.report-stat-card.border-rose {
+  border-left: 4px solid var(--neon-rose) !important;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Chart Title */
+.chart-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Export buttons */
+.btn-excel {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-excel:hover {
+  background: linear-gradient(90deg, #059669 0%, #047857 100%) !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.btn-pdf {
+  background: linear-gradient(90deg, #f43f5e 0%, #e11d48 100%) !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.25) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-pdf:hover {
+  background: linear-gradient(90deg, #e11d48 0%, #be123c 100%) !important;
+  box-shadow: 0 6px 18px rgba(244, 63, 94, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+/* Tables styling */
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reports-table th {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--border-glass);
+}
+
+.reports-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.reports-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Badges */
+.badge-gst-rate {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--neon-indigo);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--neon-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.text-indigo {
+  color: #a5b4fc !important;
+}
+
+.text-blue {
+  color: #22d3ee !important;
+}
+
+.text-emerald {
+  color: #34d399 !important;
+}
+
+.text-rose {
+  color: #fda4af !important;
+}
+
+/* Responsiveness overrides */
+@media (max-width: 768px) {
+  .reports-wrapper {
+    padding: 1rem;
+  }
+}

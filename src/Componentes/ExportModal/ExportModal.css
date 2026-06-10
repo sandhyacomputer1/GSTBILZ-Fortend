@@ -1,0 +1,202 @@
+/* Export Modal — styled to match ImportModal design system */
+
+.ex-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 6, 11, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1200;
+    padding: 16px;
+    animation: ex-fade 0.25s ease;
+}
+
+@keyframes ex-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.ex-container {
+    width: 100%;
+    max-width: 520px;
+    border-radius: 20px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    animation: ex-slide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes ex-slide {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.ex-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.ex-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ex-title-icon { font-size: 1.3rem; }
+.ex-title { margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+
+/* Body */
+.ex-body { display: flex; flex-direction: column; gap: 18px; }
+
+.ex-section { display: flex; flex-direction: column; gap: 10px; }
+
+.ex-section-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-secondary);
+}
+
+.ex-optional { font-weight: 400; text-transform: none; }
+
+/* Format cards */
+.ex-format-cards {
+    display: flex;
+    gap: 10px;
+}
+
+.ex-format-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 10px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.06);
+    background: rgba(15,23,42,0.4);
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    transition: all 0.25s ease;
+}
+
+.ex-format-card:hover { border-color: rgba(255,255,255,0.2); }
+
+.ex-format-card.selected.emerald { border-color: var(--neon-emerald); background: rgba(16,185,129,0.08); color: var(--neon-emerald); }
+.ex-format-card.selected.cyan    { border-color: var(--neon-blue);    background: rgba(6,182,212,0.08);  color: var(--neon-blue); }
+.ex-format-card.selected.rose    { border-color: var(--neon-rose);    background: rgba(244,63,94,0.08);  color: var(--neon-rose); }
+
+.ex-fmt-icon { font-size: 1.8rem; }
+
+/* Filters */
+.ex-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ex-filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ex-filter-field label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Toggle */
+.ex-filter-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.ex-toggle {
+    width: 38px;
+    height: 20px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.ex-toggle.on {
+    background: var(--neon-emerald);
+    border-color: var(--neon-emerald);
+}
+
+.ex-toggle-thumb {
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.ex-toggle.on .ex-toggle-thumb { transform: translateX(18px); }
+
+/* Preview summary */
+.ex-preview-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99,102,241,0.05);
+    border: 1px solid rgba(99,102,241,0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.ex-preview-summary strong { color: var(--text-primary); }
+
+/* Progress */
+.ex-progress-wrap {
+    position: relative;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: visible;
+}
+
+.ex-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon-emerald), var(--neon-indigo));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.ex-progress-label {
+    position: absolute;
+    right: 0;
+    top: -18px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+/* Footer — reuses ImportModal button classes */
+.ex-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 18px;
+}

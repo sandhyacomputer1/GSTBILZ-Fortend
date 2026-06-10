@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* Dark mode default values */
+  --bg-obsidian: #090d16;
+  --bg-card-dark: #121824;
+  --bg-glass: rgba(15, 23, 42, 0.45);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --neon-indigo: #6366f1;
+  --neon-indigo-glow: rgba(99, 102, 241, 0.15);
+  --neon-emerald: #10b981;
+  --neon-emerald-glow: rgba(16, 185, 129, 0.15);
+  --neon-blue: #06b6d4;
+  --neon-rose: #f43f5e;
+  --text-primary: #f8f9fa;
+  --text-secondary: #94a3b8;
+  --scrollbar-track: rgba(15, 23, 42, 0.3);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+}
+
+:root[data-theme="light"] {
+  /* Light mode overrides */
+  --bg-obsidian: #F4F6F9;
+  --bg-card-dark: #FFFFFF;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --neon-indigo: #2563EB;
+  --neon-indigo-glow: rgba(37, 99, 235, 0.15);
+  --neon-emerald: #10b981;
+  --neon-emerald-glow: rgba(16, 185, 129, 0.15);
+  --neon-blue: #0284c7;
+  --neon-rose: #e11d48;
+  --text-primary: #333333;
+  --text-secondary: #64748b;
+  --scrollbar-track: rgba(0, 0, 0, 0.05);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif !important;
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Smooth theme transitions */
+body, .sidebar-container, .header-container, .glass-panel, .finance-input, 
+.settings-save-btn, .manage-user-row, table, th, td, p, h1, h2, h3, h4, h5, h6, 
+span, input, select, textarea, .tab-btn, .dropdown-menu, .dropdown-item, .card {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Glassmorphism Panel styles */
+.glass-panel {
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 12px;
+}
+
+.bg-obsidian {
+  background-color: var(--bg-obsidian) !important;
+}
+
+.text-gradient-indigo {
+  background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:root[data-theme="light"] .text-gradient-indigo {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Customized inputs for financial applications */
+.finance-input {
+  background: var(--bg-card-dark) !important;
+  border: 1px solid var(--border-glass) !important;
+  color: var(--text-primary) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+}
+
+.finance-input:focus {
+  border-color: var(--neon-indigo) !important;
+  box-shadow: 0 0 12px var(--neon-indigo-glow) !important;
+  outline: none !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Ensure select option texts inside finance-input default to text color */
+.finance-input option {
+  background-color: var(--bg-card-dark) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Ensure select drop-down components render the value with primary text */
+select.finance-input {
+  color: var(--text-primary) !important;
+}
+
+/* Customize placeholder text color for better contrast on glass/dark panels */
+.finance-input::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 0.6;
+}
+
+/* Overrule form-label text-muted on dark backgrounds to ensure high contrast legibility */
+.glass-panel label.text-muted {
+  color: var(--text-secondary) !important;
+}
+
+/* Premium gradient action buttons */
+.settings-save-btn {
+    background: linear-gradient(90deg, #3b82f6 0%, #1b63f2 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+
+.settings-save-btn:hover {
+    background: linear-gradient(90deg, #1b63f2 0%, #114cd6 100%) !important;
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+/* Premium user card rows */
+.manage-user-row {
+    background: var(--bg-glass) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+}
+
+.manage-user-row:hover {
+    border-color: var(--neon-indigo) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: translateX(4px);
+}
+
+/* Global search icon visibility style */
+.bi-search {
+    color: var(--text-primary) !important;
+    opacity: 0.8;
+}
+
+/* Dropdown Menu overrides for light/dark mode */
+.dropdown-menu {
+  background-color: var(--bg-card-dark) !important;
+  border: 1px solid var(--border-glass) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-item {
+  color: var(--text-primary) !important;
+}
+
+.dropdown-item:hover {
+  background-color: var(--neon-indigo-glow) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Bootstrap modals and overlays */
+.modal-content {
+  background-color: var(--bg-card-dark) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-glass) !important;
+}
+
+.modal-header, .modal-footer {
+  border-color: var(--border-glass) !important;
+}
+
+/* Text overrides in Light Mode */
+:root[data-theme="light"] .text-white,
+:root[data-theme="light"] .text-light {
+  color: var(--text-primary) !important;
+}
+
+:root[data-theme="light"] .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+:root[data-theme="light"] .text-light-emphasis {
+  color: var(--text-secondary) !important;
+}
+
+:root[data-theme="light"] .btn-close-white {
+  filter: invert(1) grayscale(1) brightness(0) !important;
+}

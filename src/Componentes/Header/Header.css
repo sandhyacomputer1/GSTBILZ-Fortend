@@ -1,0 +1,17 @@
+.header-container {
+    height: 56px;
+    background-color: var(--bg-obsidian) !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 999;
+}
+
+.theme-toggle-btn {
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}

@@ -1,0 +1,194 @@
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.cart-item {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.cart-item:hover {
+  background: var(--neon-indigo-glow);
+  border-color: var(--neon-indigo);
+}
+
+.cart-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.cart-item-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--neon-blue);
+}
+
+.cart-item-badge {
+  font-size: 9.5px;
+  padding: 2px 6px;
+  background-color: var(--neon-indigo-glow) !important;
+  color: var(--neon-indigo) !important;
+  border: 1px solid var(--border-glass);
+  border-radius: 4px;
+}
+
+/* Horizontal controls container grouping everything inline */
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  border-top: 1px solid var(--border-glass);
+  padding-top: 8px;
+}
+
+.cart-item-qty-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-obsidian);
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border-glass);
+}
+
+.cart-item-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cart-item-btn-minus {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cart-item-btn-minus:hover:not(:disabled) {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.cart-item-btn-minus:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background-color: var(--bg-card-dark);
+  color: var(--text-secondary);
+  border-color: var(--border-glass);
+}
+
+.cart-item-btn-plus {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.cart-item-btn-plus:hover {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+.cart-item-qty {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Inline discount field styling */
+.cart-item-discount-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-obsidian);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-glass);
+}
+
+.cart-item-discount-label {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  margin: 0;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.cart-item-discount-input {
+  width: 55px;
+  height: 20px;
+  font-size: 10.5px;
+  background-color: var(--bg-card-dark) !important;
+  border: 1px solid var(--border-glass) !important;
+  color: var(--text-primary) !important;
+  border-radius: 4px;
+  text-align: center;
+  padding: 0 2px;
+  transition: border-color 0.2s;
+}
+
+.cart-item-discount-input:focus {
+  border-color: var(--neon-indigo) !important;
+  outline: none;
+}
+
+/* Hide spin buttons */
+.cart-item-discount-input::-webkit-outer-spin-button,
+.cart-item-discount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-item-discount-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.cart-item-delete {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.cart-item-delete:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.45);
+}

@@ -1,0 +1,436 @@
+/* Modal overlay */
+.receipt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.receipt-modal-container {
+  background: transparent;
+  width: 90%;
+  max-width: 800px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A4 Page Layout */
+.receipt-card {
+  background: #ffffff;
+  color: #111111;
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 40px; /* Padding for content, shapes ignore padding via absolute */
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP GRAPHICS */
+.invoice-shape-top-orange {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65%;
+  height: 40px;
+  background-color: #F89E31;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+}
+
+.invoice-shape-top-blue {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 60px;
+  background-color: #003B5C;
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
+}
+
+/* HEADER ROW */
+.invoice-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 80px;
+  gap: 20px;
+}
+
+.invoice-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.logo-blue {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  background-color: #003B5C;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.logo-orange {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 35px;
+  height: 35px;
+  background-color: #F89E31;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.logo-text h3 {
+  margin: 0;
+  font-weight: 800;
+  font-size: 18px;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+.logo-text p {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #666;
+}
+
+.invoice-company-details h1 {
+  margin: 0;
+  font-weight: 900;
+  font-size: 32px;
+  color: #1a1a1a;
+  text-transform: uppercase;
+}
+
+.invoice-company-details p {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+/* INVOICE BADGE */
+.invoice-badge-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.invoice-badge {
+  background-color: #F89E31;
+  color: #fff;
+  padding: 6px 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+/* METADATA ROWS */
+.invoice-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fw-bold {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.dotted-line {
+  border-bottom: 1.5px dotted #666;
+  padding-bottom: 2px;
+  min-width: 150px;
+  display: inline-block;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.border-bottom-dotted {
+  border-bottom: 1.5px dotted #666;
+}
+
+/* TABLE */
+.invoice-table-wrapper {
+  position: relative;
+  margin-top: 15px;
+  border: 2px solid #003B5C;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.invoice-table th {
+  background-color: #003B5C;
+  color: #ffffff;
+  padding: 10px;
+  font-weight: 600;
+  border-right: 1px solid #ffffff;
+}
+
+.invoice-table th:last-child {
+  border-right: none;
+}
+
+.invoice-table td {
+  padding: 10px;
+  border-right: 1px solid #003B5C;
+  height: 35px; /* Fixed height for rows */
+}
+
+.invoice-table td:last-child {
+  border-right: none;
+}
+
+/* Column Widths */
+.th-sl { width: 8%; }
+.th-desc { width: 45%; }
+.th-qty { width: 12%; }
+.th-rate { width: 15%; }
+.th-total { width: 20%; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* Empty Rows */
+.empty-row td {
+  border-right: 1px solid #003B5C;
+}
+.empty-row td:last-child {
+  border-right: none;
+}
+
+/* WATERMARK */
+.invoice-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 250px;
+  opacity: 0.05;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.watermark-blue {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 60%;
+  background-color: #003B5C;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.watermark-orange {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background-color: #F89E31;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* TOTALS BOX inside Table */
+.invoice-totals-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 35%; /* spans exactly the rate and total columns if needed, but flex adjusts */
+  border-top: 1px solid #003B5C;
+  border-left: 1px solid #003B5C;
+  background: #ffffff;
+  z-index: 1;
+}
+
+.total-row {
+  display: flex;
+}
+
+.total-label {
+  padding: 8px 10px;
+  font-weight: 700;
+  color: #1a1a1a;
+  flex: 1;
+  text-align: right;
+}
+
+.total-value {
+  padding: 8px 10px;
+  flex: 1;
+  text-align: right;
+}
+
+.border-bottom { border-bottom: 1px solid #003B5C; }
+.border-right { border-right: 1px solid #003B5C; }
+
+/* IN WORDS */
+.invoice-words {
+  margin-top: 10px;
+}
+
+/* SIGNATURES */
+.invoice-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: 60px;
+}
+
+.signature-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signature-line {
+  width: 150px;
+  border-top: 1.5px solid #1a1a1a;
+  margin-bottom: 5px;
+}
+
+.signature-box span {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* BOTTOM GRAPHICS */
+.invoice-shape-bottom-blue {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 35px;
+  background-color: #003B5C;
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+}
+
+.invoice-shape-bottom-orange {
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 80%;
+  height: 25px;
+  background-color: #F89E31;
+  clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   PRINTER LAYOUT STYLES (@media print)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  #root > *:not(.receipt-overlay) {
+    display: none !important;
+  }
+
+  .receipt-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    background: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    display: block !important;
+  }
+
+  .receipt-modal-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .receipt-card {
+    box-shadow: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 15mm !important;
+    aspect-ratio: auto !important;
+  }
+
+  .invoice-shape-top-orange, .invoice-shape-top-blue, 
+  .invoice-shape-bottom-blue, .invoice-shape-bottom-orange,
+  .invoice-badge, .invoice-table th, 
+  .logo-blue, .logo-orange, .watermark-blue, .watermark-orange {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .receipt-actions {
+    display: none !important;
+  }
+}

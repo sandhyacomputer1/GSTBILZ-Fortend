@@ -1,0 +1,89 @@
+.manage-shops-container {
+    min-height: calc(100vh - 70px);
+}
+
+.custom-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: -10px;
+    color: var(--text-primary) !important;
+}
+
+.custom-table th {
+    color: var(--text-secondary) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.custom-table tbody tr {
+    background-color: var(--bg-card-dark) !important;
+    border: 1px solid var(--border-glass) !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+}
+
+.custom-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-glass) !important;
+}
+
+.custom-table th, .custom-table td {
+    padding: 1rem 1.25rem;
+    border: none;
+    color: var(--text-primary) !important;
+}
+
+.custom-table tbody tr td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.custom-table tbody tr td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.text-gradient-indigo {
+    color: var(--neon-indigo) !important;
+    font-weight: 700;
+}
+
+/* Side Drawer Styles */
+.drawer-panel {
+    position: fixed;
+    top: 0;
+    right: -480px;
+    width: 480px;
+    height: 100vh;
+    background: var(--bg-card-dark) !important;
+    border-left: 1px solid var(--border-glass);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25);
+    z-index: 1050;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2rem;
+    overflow-y: auto;
+    color: var(--text-primary) !important;
+}
+
+.drawer-panel.open {
+    right: 0;
+}
+
+.drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1040;
+    display: none;
+}
+
+.drawer-backdrop.open {
+    display: block;
+}

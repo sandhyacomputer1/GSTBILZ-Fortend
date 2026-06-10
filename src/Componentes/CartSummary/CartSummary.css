@@ -1,0 +1,62 @@
+.cart-summary-details {
+    padding: 16px 0;
+    margin-bottom: 20px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.cart-summary-details span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Customize POS Cash/UPI payment buttons */
+.btn-success {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-success:hover:not(:disabled) {
+    background: linear-gradient(90deg, #059669 0%, #047857 100%) !important;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #3b82f6 0%, #1b63f2 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(90deg, #1b63f2 0%, #114cd6 100%) !important;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background: linear-gradient(90deg, #ff7a00 0%, #ff3d00 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(255, 61, 0, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-warning:hover:not(:disabled) {
+    background: linear-gradient(90deg, #ff3d00 0%, #dd3300 100%) !important;
+    box-shadow: 0 6px 18px rgba(255, 61, 0, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: scale(0.98) !important;
+}

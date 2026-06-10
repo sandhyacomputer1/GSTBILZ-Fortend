@@ -1,0 +1,27 @@
+.manage-category-row {
+    background: rgba(15, 23, 42, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+}
+
+.manage-category-row:hover {
+    border-color: rgba(99, 102, 241, 0.25) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: translateX(4px);
+}
+
+.category-image {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.manage-category-row:hover .category-image {
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: scale(1.05);
+}
