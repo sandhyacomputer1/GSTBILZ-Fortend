@@ -1,20 +1,20 @@
 import axios from "axios";
 export const login = async (data) => {
-    return await axios.post('http://localhost:8080/login', data);
+    return await axios.post('https://billingsoftwer.up.railway.app/login', data);
 }
 
 export const registerShop = async (data) => {
-    return await axios.post('http://localhost:8080/register-shop', data);
+    return await axios.post('https://billingsoftwer.up.railway.app/register-shop', data);
 }
 
 export const loginGoogle = async (idToken) => {
-    return await axios.post('http://localhost:8080/login/google', { idToken });
+    return await axios.post('https://billingsoftwer.up.railway.app/login/google', { idToken });
 }
 
 export const forgotPassword = async (email) => {
-    return await axios.post('http://localhost:8080/forgot-password', { email });
+    return await axios.post('https://billingsoftwer.up.railway.app/forgot-password', { email });
 }
 
 export const resetPassword = async (email, otp, newPassword) => {
-    return await axios.post('http://localhost:8080/reset-password', { email, otp, newPassword });
+    return await axios.post('https://billingsoftwer.up.railway.app/reset-password', { email, otp, newPassword });
 }
