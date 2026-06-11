@@ -35,7 +35,7 @@ const Login = () => {
     const initializeGoogleSignIn = () => {
         if (window.google) {
             window.google.accounts.id.initialize({
-                client_id: '1020739958744-example.apps.googleusercontent.com',
+                client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || '1020739958744-example.apps.googleusercontent.com',
                 callback: handleGoogleLoginSuccess
             });
             window.google.accounts.id.renderButton(
