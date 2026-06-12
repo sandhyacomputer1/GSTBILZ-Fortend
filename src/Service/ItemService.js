@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE = "https://billingsoftwer.up.railway.app";
+const BASE = "https://gstblizbackend.up.railway.app";
 const authHeader = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
 
 // ─── CRUD ────────────────────────────────────────────────────────────────────────

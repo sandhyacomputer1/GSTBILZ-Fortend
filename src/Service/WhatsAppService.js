@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://billingsoftwer.up.railway.app';
+const BASE_URL = 'https://gstblizbackend.up.railway.app';
 
 const getHeaders = () => ({
     headers: {
