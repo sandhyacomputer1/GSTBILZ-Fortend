@@ -4,6 +4,7 @@ import { AppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import './ReceiptPopup.css';
 import { sendWhatsAppBill } from '../../Service/WhatsAppService';
+import defaultLogo from '../../assets/logo.webp';
 
 const ReceiptPopup = ({ orderDetails, onClose }) => {
   const { shopProfile } = useContext(AppContext);
@@ -44,6 +45,31 @@ const ReceiptPopup = ({ orderDetails, onClose }) => {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
+      });
+    } catch {
+      return String(dateTimeString || '');
+    }
+  };
+
+  const formatDateTime = (dateTimeString) => {
+    try {
+      if (!dateTimeString) {
+        return new Date().toLocaleString('en-IN', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+      }
+      return new Date(dateTimeString).toLocaleString('en-IN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
       });
     } catch {
       return String(dateTimeString || '');
@@ -147,32 +173,18 @@ const ReceiptPopup = ({ orderDetails, onClose }) => {
           <div className="invoice-shape-top-orange"></div>
           <div className="invoice-shape-top-blue"></div>
 
-          {/* HEADER ROW (Logo & Company Info) */}
+          {/* HEADER ROW (Logo & Company Info - Centered) */}
           <div className="invoice-header">
-            {shopProfile?.shopLogoUrl ? (
-              <div className="invoice-logo">
-                <img src={shopProfile.shopLogoUrl} alt="Shop Logo" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
-              </div>
-            ) : (
-              <div className="invoice-logo">
-                <div className="logo-icon">
-                  <div className="logo-blue"></div>
-                  <div className="logo-orange"></div>
-                </div>
-                <div className="logo-text">
-                  <h3>LOGO HERE</h3>
-                  <p>TAGLINE</p>
-                </div>
-              </div>
-            )}
+            <div className="invoice-logo">
+              <img src={shopProfile?.shopLogoUrl || defaultLogo} alt="Shop Logo" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
+            </div>
 
             <div className="invoice-company-details">
               <h1>{shopProfile?.shopName || 'COMPANY NAME HERE'}</h1>
               <p>{shopProfile?.shopAddress || 'Your Business Address 0000, Main Street, Unit 000C FEL, 0000'}</p>
               <p>
-                Mob: {shopProfile?.shopMobile || '0123-5678900'}
-                Email: {shopProfile?.shopEmail || 'Your Mail Here'}
-                {shopProfile?.shopWebsite ? ` Web: ${shopProfile.shopWebsite}` : ''}
+                Mob: {shopProfile?.shopMobile || '0123-5678900'} | Email: {shopProfile?.shopEmail || 'Your Mail Here'}
+                {shopProfile?.shopWebsite ? ` | Web: ${shopProfile.shopWebsite}` : ''}
               </p>
               {shopProfile?.gstNumber && (
                 <p style={{ fontWeight: 'bold', marginTop: '2px' }}>GSTIN: {shopProfile.gstNumber}</p>
@@ -204,22 +216,13 @@ const ReceiptPopup = ({ orderDetails, onClose }) => {
 
           {/* METADATA ROW 3 */}
           <div className="invoice-meta-row mb-3 pb-2 border-bottom-dotted">
-            <div className="meta-item">
+            <div className="meta-item flex-grow-1 w-100">
               <span className="fw-bold">Mobile :</span> <span className="dotted-line flex-grow-1">{String(orderDetails.phoneNumber || 'N/A')}</span>
-            </div>
-            <div className="meta-item text-right" style={{ minWidth: '250px' }}>
-              <span className="fw-bold">Email :</span> <span className="dotted-line flex-grow-1">N/A</span>
             </div>
           </div>
 
           {/* TABLE */}
           <div className="invoice-table-wrapper">
-            {/* Watermark in center of table */}
-            <div className="invoice-watermark">
-              <div className="watermark-blue"></div>
-              <div className="watermark-orange"></div>
-            </div>
-
             <table className="invoice-table">
               <thead>
                 <tr>
@@ -340,6 +343,11 @@ const ReceiptPopup = ({ orderDetails, onClose }) => {
               <div className="signature-line"></div>
               <span>Authorized by</span>
             </div>
+          </div>
+
+          {/* BILL CREATION DATE & TIME */}
+          <div className="invoice-datetime">
+            Bill Generated On: {formatDateTime(orderDetails.createdAt)}
           </div>
 
           {/* BOTTOM GRAPHICS */}

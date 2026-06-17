@@ -1,7 +1,8 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState, useCallback } from 'react';
 import { fetchCategories } from '../Service/CategoryService';
 import { fetchItems } from '../Service/ItemService';
 import { fetchUserProfile } from '../Service/UserService';
+import { getMySubscriptionStatus, getUnreadCount } from '../Service/NotificationService';
 
 /**
  * React Context used across components to share categories, items, cart state, and authentication.
@@ -81,6 +82,33 @@ export const AppContextProvider = (props) => {
             role: localStorage.getItem("role")
         };
     });
+
+    // Subscription status (for ShopOwner/Employee restriction)
+    const [subscriptionInfo, setSubscriptionInfo] = useState(null);
+
+    // Unread notification count (for bell badge)
+    const [unreadNotifCount, setUnreadNotifCount] = useState(0);
+
+    const refreshSubscriptionStatus = useCallback(async () => {
+        const role = localStorage.getItem("role");
+        if (!localStorage.getItem("token") || role === "ROLE_SUPERADMIN") return;
+        try {
+            const res = await getMySubscriptionStatus();
+            setSubscriptionInfo(res.data);
+        } catch {
+            // non-critical
+        }
+    }, []);
+
+    const refreshUnreadCount = useCallback(async () => {
+        if (!localStorage.getItem("token")) return;
+        try {
+            const res = await getUnreadCount();
+            setUnreadNotifCount(res.data.count || 0);
+        } catch {
+            // non-critical
+        }
+    }, []);
 
     // State to hold items in the shopping cart
     const [cartItem, setCartItem] = useState([]);
@@ -179,6 +207,8 @@ export const AppContextProvider = (props) => {
 
         if (auth.token) {
             LoadData();
+            refreshSubscriptionStatus();
+            refreshUnreadCount();
         }
 
     }, [auth.token]);
@@ -219,7 +249,12 @@ export const AppContextProvider = (props) => {
         settings,
         updateSettings,
         theme,
-        toggleTheme
+        toggleTheme,
+        subscriptionInfo,
+        refreshSubscriptionStatus,
+        unreadNotifCount,
+        setUnreadNotifCount,
+        refreshUnreadCount,
     };
 
     return (

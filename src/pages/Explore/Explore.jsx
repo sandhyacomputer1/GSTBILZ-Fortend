@@ -15,7 +15,7 @@ import SearchBox from '../../Componentes/Item/SearchBox/SearchBox';
  * - Right column: customer details form, current cart, and checkout payment actions.
  */
 const Explore = () => {
-  const { categories, cartItem } = useContext(AppContext);
+  const { categories, cartItem, subscriptionInfo } = useContext(AppContext);
   console.log(categories);
 
   // States to keep track of UI interactions, filtering, and customer metadata
@@ -56,7 +56,7 @@ const Explore = () => {
             categories={categories}/>
         </div>
         <hr className='horizontal-line'/>
-        <div className='second-row' style={{overflowY: 'auto'}}>
+        <div className='second-row' style={{ overflowY: 'auto', overflowX: 'hidden' }}>
           <DisplayItems selectedCategory={selectedCategory} searchText={searchText}/>
         </div>
 
@@ -74,6 +74,7 @@ const Explore = () => {
               className='btn btn-warning px-4 py-2 fw-bold d-flex align-items-center gap-2'
               style={{ borderRadius: '8px', fontSize: '14px', boxShadow: '0 4px 12px rgba(255, 193, 7, 0.2)' }}
               onClick={() => setIsDrawerOpen(true)}
+              disabled={subscriptionInfo?.isExpired}
             >
               Proceed to Receipt <i className="bi bi-arrow-right-short fs-5"></i>
             </button>

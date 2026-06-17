@@ -11,18 +11,19 @@ const SearchBox = ({ onSearch }) => {
     };
 
     return (
-        <div className='input-group mb-3'>
+        <div className='position-relative w-100 mb-3'>
             <input
                 type="text"
-                className='form-control'
+                className='form-control finance-input w-100'
+                style={{ paddingRight: '40px' }}
                 placeholder='Search items...'
                 value={searchText}
                 onChange={handleInputChange}
             />
-
-            <span className='input-group-text bg-warning'>
-                <i className='bi bi-search'></i>
-            </span>
+            <i 
+                className="bi bi-search position-absolute end-0 top-50 translate-middle-y me-3 text-secondary"
+                style={{ pointerEvents: 'none' }}
+            ></i>
         </div>
     );
 };

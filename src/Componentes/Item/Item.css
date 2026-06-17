@@ -1,20 +1,64 @@
 .item-card {
-    background: rgba(15, 23, 42, 0.45) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(8px);
+    background: var(--bg-glass) !important;
+    border: 1px solid var(--border-glass) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    color: var(--text-primary);
 }
 
 .item-card:hover {
     transform: translateY(-4px) !important;
-    border-color: rgba(99, 102, 241, 0.25) !important;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4) !important;
+    border-color: var(--neon-indigo) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.item-image-wrapper {
+    position: relative;
+    flex-shrink: 0;
 }
 
 .item-image {
-    width: 72px;
-    height: 72px;
-    border-radius: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1px solid var(--border-glass);
     object-fit: cover;
+}
+
+.item-title {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.item-price {
+    color: var(--neon-emerald);
+    font-size: 1.05rem;
+}
+
+.item-add-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--neon-indigo);
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px var(--neon-indigo-glow);
+    flex-shrink: 0;
+}
+
+.item-add-btn:hover {
+    background: #4f46e5;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+}
+
+.item-add-btn:active {
+    transform: scale(0.95);
 }

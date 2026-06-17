@@ -1,0 +1,90 @@
+/* ==============================
+   FLOATING GST ANIMATION OVERLAY
+   ============================== */
+
+.auth-anim-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* ---- Centre watermark ---- */
+.auth-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.06;
+    user-select: none;
+}
+
+.auth-watermark-logo {
+    width: 140px;
+    height: 140px;
+}
+
+.auth-watermark-text {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    color: #ffffff;
+    font-family: 'Outfit', 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* ---- Floating items base ---- */
+.auth-anim-item {
+    position: absolute;
+    bottom: -60px;
+    font-weight: 800;
+    font-family: 'Outfit', 'Inter', 'Segoe UI', sans-serif;
+    letter-spacing: 0.06em;
+    animation: gstFloat linear infinite;
+    will-change: transform, opacity;
+    user-select: none;
+    line-height: 1;
+}
+
+/* ---- Color variants ---- */
+.auth-anim-green {
+    color: rgba(52, 211, 153, 0.55);
+    text-shadow: 0 0 14px rgba(52, 211, 153, 0.4), 0 0 30px rgba(52, 211, 153, 0.15);
+}
+
+.auth-anim-blue {
+    color: rgba(99, 179, 237, 0.55);
+    text-shadow: 0 0 14px rgba(99, 179, 237, 0.4), 0 0 30px rgba(99, 179, 237, 0.15);
+}
+
+.auth-anim-gold {
+    color: rgba(251, 191, 36, 0.5);
+    text-shadow: 0 0 14px rgba(251, 191, 36, 0.35), 0 0 30px rgba(251, 191, 36, 0.12);
+}
+
+.auth-anim-white {
+    color: rgba(255, 255, 255, 0.35);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.25), 0 0 24px rgba(255, 255, 255, 0.08);
+}
+
+/* ---- Float keyframe ---- */
+@keyframes gstFloat {
+    0% {
+        transform: translateY(0) rotate(-5deg) scale(0.85);
+        opacity: 0;
+    }
+    8% {
+        opacity: 1;
+    }
+    92% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(calc(-100vh - 80px)) rotate(7deg) scale(1.05);
+        opacity: 0;
+    }
+}

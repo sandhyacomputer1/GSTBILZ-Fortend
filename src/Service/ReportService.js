@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "./api";
 
-const BASE = "https://gstblizbackend.up.railway.app";
+const BASE = API_BASE_URL;
 const authHeader = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
 
 export const fetchDailyReport = async (startDate, endDate) =>

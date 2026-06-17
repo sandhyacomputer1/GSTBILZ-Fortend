@@ -41,7 +41,7 @@ const TABS = [
 
 const Reports = () => {
   const [activeTab, setActiveTab] = useState("daily");
-  
+
   // Date range state: default to 30 days ago until today
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
@@ -52,7 +52,7 @@ const Reports = () => {
     return new Date().toISOString().split("T")[0];
   });
   const [limit, setLimit] = useState(10);
-  
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [exportLoading, setExportLoading] = useState(false);
@@ -274,7 +274,7 @@ const Reports = () => {
       <FinanceParticles opacityMultiplier={0.2} speedMultiplier={0.4} />
 
       <div className="reports-container position-relative z-2">
-        
+
         {/* HEADER SECTION */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
           <div>
@@ -284,7 +284,7 @@ const Reports = () => {
             </h2>
             <p className="reports-subtitle text-secondary">Aggregated statements, tax reports, and performance parameters</p>
           </div>
-          
+
           {/* EXPORTS CARD */}
           <div className="d-flex gap-2">
             <button
@@ -374,7 +374,7 @@ const Reports = () => {
         {/* METRICS PANELS */}
         {data.length > 0 && !loading && (
           <div className="reports-stats-grid mb-4">
-            
+
             {/* Conditional Cards based on active tab */}
             {(activeTab === "daily" || activeTab === "weekly" || activeTab === "monthly" || activeTab === "yearly") && (
               <>
@@ -490,15 +490,17 @@ const Reports = () => {
             </div>
           ) : (
             <div className="table-responsive">
-              <table className="table reports-table text-light mb-0">
+              <table className={`table reports-table mb-0 ${activeTab === 'daily' ? 'simple-blue-table' : 'text-light'}`}>
                 <thead>
                   {activeTab === "daily" && (
                     <tr>
-                      <th>Date</th>
-                      <th className="text-end">Total Sales</th>
-                      <th className="text-end">Total Orders</th>
-                      <th className="text-end">GST Tax</th>
+                      <th>Date & Time</th>
+                      <th>Order ID</th>
+                      <th>Customer Name</th>
+                      <th>Purchased Items</th>
                       <th className="text-end">Discount</th>
+                      <th className="text-end">GST Tax</th>
+                      <th className="text-end">Total Amount</th>
                     </tr>
                   )}
                   {activeTab === "weekly" && (
@@ -562,11 +564,15 @@ const Reports = () => {
                     if (activeTab === "daily") {
                       return (
                         <tr key={index}>
-                          <td>{row.date || "N/A"}</td>
-                          <td className="text-end text-indigo fw-semibold">₹{row.totalSales?.toFixed(2)}</td>
-                          <td className="text-end text-blue">{row.totalOrders}</td>
-                          <td className="text-end text-emerald">₹{row.totalTax?.toFixed(2)}</td>
-                          <td className="text-end text-rose">₹{row.totalDiscount?.toFixed(2)}</td>
+                          <td>{row.createdAt ? new Date(row.createdAt).toLocaleString('en-IN') : (row.date || "N/A")}</td>
+                          <td>{row.orderId || "N/A"}</td>
+                          <td>{row.customerName || "N/A"}</td>
+                          <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {row.items ? row.items.map(i => `${i.name} (x${i.quantity})`).join(", ") : (row.item ? row.item.map(i => `${i.name} (x${i.quantity})`).join(", ") : "N/A")}
+                          </td>
+                          <td className="text-end">{(row.discount || row.totalDiscount || 0).toFixed(2)}</td>
+                          <td className="text-end">{(row.gstTax || row.totalTax || 0).toFixed(2)}</td>
+                          <td className="text-end fw-semibold">{(row.grandTotal || row.totalSales || row.totalAmount || 0).toFixed(2)}</td>
                         </tr>
                       );
                     }

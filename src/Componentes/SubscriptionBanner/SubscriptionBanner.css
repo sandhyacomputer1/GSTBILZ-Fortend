@@ -1,0 +1,142 @@
+/* ─── Base banner ─────────────────────────────────────────────────────────── */
+.sub-banner {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin: 0 16px 0 16px;
+    font-size: 0.88rem;
+    position: relative;
+}
+
+/* Expired — red */
+.sub-banner.expired {
+    background: rgba(244, 63, 94, 0.08);
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    color: #f43f5e;
+}
+
+/* Warning — amber */
+.sub-banner.warning {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #f59e0b;
+    align-items: center;
+}
+
+.sub-banner-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.sub-banner-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.sub-banner-right {
+    flex-shrink: 0;
+}
+
+.sub-banner-title {
+    font-weight: 700;
+    margin: 0 0 3px 0;
+    font-size: 0.9rem;
+}
+
+.sub-banner-msg {
+    margin: 0;
+    color: inherit;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* ─── Contact button ──────────────────────────────────────────────────────── */
+.sub-banner-contact-btn {
+    background: rgba(244, 63, 94, 0.12);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    color: #f43f5e;
+    padding: 7px 14px;
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.sub-banner.warning .sub-banner-contact-btn {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+}
+.sub-banner-contact-btn:hover { opacity: 0.8; }
+
+/* ─── Expanded contact panel ──────────────────────────────────────────────── */
+.sub-banner-contact-panel {
+    width: 100%;
+    border-top: 1px solid rgba(244, 63, 94, 0.15);
+    padding-top: 12px;
+    margin-top: 4px;
+}
+
+.sub-banner-contact-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 0 0 8px 0;
+}
+
+.sub-banner-contact-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Individual contact action buttons */
+.sub-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.sub-contact-btn:hover { opacity: 0.8; }
+
+.sub-contact-btn.email {
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #6366f1;
+}
+
+.sub-contact-btn.whatsapp {
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    color: #25D366;
+}
+
+.sub-contact-btn.phone {
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #06b6d4;
+}
+
+@media (max-width: 640px) {
+    .sub-banner { padding: 12px 14px; }
+    .sub-banner-left { flex-direction: column; gap: 6px; }
+    .sub-banner-right { width: 100%; }
+    .sub-banner-contact-btn { width: 100%; justify-content: center; }
+}

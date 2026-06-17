@@ -15,11 +15,13 @@ import Settings from "./pages/Settings/Settings";
 import ImportHistory from "./Componentes/ImportHistory/ImportHistory";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 import Reports from "./pages/Reports/Reports";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./context/AppContext";
 import ReceiptPopup from "./Componentes/ReceiptPopup/ReceiptPopup";
+import SubscriptionBanner from "./Componentes/SubscriptionBanner/SubscriptionBanner";
+import { requestSubscriptionRenewal } from "./Service/SubscriptionService";
 
 import RegisterShop from "./pages/RegisterShop/RegisterShop";
 import PendingApproval from "./pages/PendingApproval/PendingApproval";
@@ -27,6 +29,7 @@ import AccountRejected from "./pages/AccountRejected/AccountRejected";
 import AccountDisabled from "./pages/AccountDisabled/AccountDisabled";
 import ManageShops from "./pages/ManageShops/ManageShops";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import SubscriptionManagement from "./pages/SubscriptionManagement/SubscriptionManagement";
 
 // Prevent logged-in users from going to login page
 const LoginRoute = ({ auth, element }) => {
@@ -36,8 +39,10 @@ const LoginRoute = ({ auth, element }) => {
   return element;
 };
 
-// Protect routes (auth + role check)
-const ProtectedRoute = ({ auth, children, roles }) => {
+// Protect routes (auth + role check + subscription check)
+const ProtectedRoute = ({ auth, children, roles, isRestricted, subscriptionInfo }) => {
+  const [requesting, setRequesting] = useState(false);
+
   if (!auth?.token) {
     return <Navigate to="/login" replace />;
   }
@@ -46,12 +51,56 @@ const ProtectedRoute = ({ auth, children, roles }) => {
     return <Navigate to="/dashboard" replace />;
   }
 
+  const handleSendRenewalRequest = async () => {
+    setRequesting(true);
+    const toastId = toast.loading("Sending subscription renewal request to Super Admin...");
+    try {
+      await requestSubscriptionRenewal();
+      toast.success("Renewal request sent successfully! Super Admin has been notified.", { id: toastId });
+    } catch (error) {
+      console.error("Failed to send renewal request:", error);
+      toast.error(error.response?.data?.message || "Failed to send renewal request.", { id: toastId });
+    } finally {
+      setRequesting(false);
+    }
+  };
+
+  if (isRestricted && subscriptionInfo?.isExpired && auth?.role !== "ROLE_SUPERADMIN") {
+    return (
+      <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: 'calc(100vh - 120px)' }}>
+        <div className="glass-panel p-5 text-center" style={{ maxWidth: '600px', border: '1px solid rgba(244,63,94,0.2)', marginTop: '40px' }}>
+          <div className="text-danger mb-4" style={{ fontSize: '3.5rem' }}>
+            <i className="bi bi-exclamation-triangle-fill"></i>
+          </div>
+          <h3 className="text-white fw-bold mb-3">Access Restricted</h3>
+          <p className="text-secondary fs-6 mb-4">
+            Your subscription has expired. Please contact the Super Admin to activate your account.
+          </p>
+          <div className="d-flex align-items-center justify-content-center gap-3">
+            <a href="/dashboard" className="btn btn-secondary px-4 py-2 fw-semibold" style={{ borderRadius: '8px' }}>
+              Go to Dashboard
+            </a>
+            <button 
+              onClick={handleSendRenewalRequest} 
+              className="btn btn-primary px-4 py-2 fw-semibold" 
+              style={{ borderRadius: '8px' }}
+              disabled={requesting}
+            >
+              <i className="bi bi-envelope-fill me-1"></i>
+              {requesting ? 'Sending...' : 'Contact Super Admin'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return children;
 };
 
 const App = () => {
   const location = useLocation();
-  const { auth, favicon, showPopup, setShowPopup, orderDetails, setOrderDetails } = useContext(AppContext);
+  const { auth, favicon, showPopup, setShowPopup, orderDetails, setOrderDetails, subscriptionInfo } = useContext(AppContext);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const isPublicRoute = ["/login", "/register-shop", "/pending-approval", "/account-rejected", "/account-disabled", "/verify-email", "/forgot-password"].includes(location.pathname);
@@ -79,6 +128,12 @@ const App = () => {
           <Header onToggleSidebar={() => setMobileSidebarOpen(!mobileSidebarOpen)} />
         )}
 
+        {!isPublicRoute && auth?.role !== 'ROLE_SUPERADMIN' && (
+          <div className="mt-3">
+            <SubscriptionBanner subscriptionInfo={subscriptionInfo} />
+          </div>
+        )}
+
         {/* Dynamic Route Content */}
         <div className="flex-grow-1">
           <Toaster />
@@ -96,17 +151,17 @@ const App = () => {
             {/* DEFAULT ROUTES */}
             <Route path="/" element={<ProtectedRoute auth={auth} roles={["ROLE_SUPERADMIN", "ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]}><Dashboard /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute auth={auth} roles={["ROLE_SUPERADMIN", "ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]}><Dashboard /></ProtectedRoute>} />
-            <Route path="/explore" element={<ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]}><Explore /></ProtectedRoute>} />
+            <Route path="/explore" element={<ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]} isRestricted={true} subscriptionInfo={subscriptionInfo}><Explore /></ProtectedRoute>} />
 
             {/* MANAGE ROUTES */}
             <Route
               path="/manage-categories"
-              element={<ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]}><Manage_Categories /></ProtectedRoute>}
+              element={<ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]} isRestricted={true} subscriptionInfo={subscriptionInfo}><Manage_Categories /></ProtectedRoute>}
             />
 
             <Route
               path="/manage-items"
-              element={<ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]}><Manage_Items /></ProtectedRoute>}
+              element={<ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]} isRestricted={true} subscriptionInfo={subscriptionInfo}><Manage_Items /></ProtectedRoute>}
             />
 
             {/* ADMIN ONLY ROUTES */}
@@ -127,11 +182,20 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/subscription-management"
+              element={
+                <ProtectedRoute auth={auth} roles={["ROLE_SUPERADMIN"]}>
+                  <SubscriptionManagement />
+                </ProtectedRoute>
+              }
+            />
             
             <Route
               path="/manage-employees"
               element={
-                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]}>
+                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]} isRestricted={true} subscriptionInfo={subscriptionInfo}>
                   <ManageEmployees />
                 </ProtectedRoute>
               }
@@ -141,7 +205,7 @@ const App = () => {
             <Route
               path="/manage-orders"
               element={
-                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]}>
+                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]} isRestricted={true} subscriptionInfo={subscriptionInfo}>
                   <OrderHistory />
                 </ProtectedRoute>
               }
@@ -161,7 +225,7 @@ const App = () => {
             <Route
               path="/import-history"
               element={
-                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]}>
+                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER"]} isRestricted={true} subscriptionInfo={subscriptionInfo}>
                   <ImportHistory />
                 </ProtectedRoute>
               }
@@ -171,7 +235,7 @@ const App = () => {
             <Route
               path="/reports"
               element={
-                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]}>
+                <ProtectedRoute auth={auth} roles={["ROLE_SHOPOWNER", "ROLE_EMPLOYEE"]} isRestricted={true} subscriptionInfo={subscriptionInfo}>
                   <Reports />
                 </ProtectedRoute>
               }

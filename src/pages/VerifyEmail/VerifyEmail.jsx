@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../../Service/api';
 
 const VerifyEmail = () => {
     const [searchParams] = useSearchParams();
@@ -18,7 +19,7 @@ const VerifyEmail = () => {
 
         const verifyToken = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/verify-email?token=${token}`);
+                const response = await axios.get(`${API_BASE_URL}/verify-email?token=${token}`);
                 setStatus(response.data);
                 setError(false);
                 setTimeout(() => {

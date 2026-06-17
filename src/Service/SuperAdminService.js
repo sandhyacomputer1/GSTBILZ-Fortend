@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_BASE_URL } from "./api";
 
 const getHeaders = () => ({
     headers: {
@@ -7,21 +8,21 @@ const getHeaders = () => ({
 });
 
 export const fetchShopOwners = async () => {
-    return await axios.get(`https://gstblizbackend.up.railway.app/admin/shop-owners`, getHeaders());
+    return await axios.get(`${API_BASE_URL}/admin/shop-owners`, getHeaders());
 };
 
 export const approveShop = async (userId) => {
-    return await axios.put(`https://gstblizbackend.up.railway.app/admin/shop-owners/${userId}/approve`, {}, getHeaders());
+    return await axios.put(`${API_BASE_URL}/admin/shop-owners/${userId}/approve`, {}, getHeaders());
 };
 
 export const rejectShop = async (userId) => {
-    return await axios.put(`https://gstblizbackend.up.railway.app/admin/shop-owners/${userId}/reject`, {}, getHeaders());
+    return await axios.put(`${API_BASE_URL}/admin/shop-owners/${userId}/reject`, {}, getHeaders());
 };
 
 export const toggleDisableShop = async (userId) => {
-    return await axios.put(`https://gstblizbackend.up.railway.app/admin/shop-owners/${userId}/disable`, {}, getHeaders());
+    return await axios.put(`${API_BASE_URL}/admin/shop-owners/${userId}/disable`, {}, getHeaders());
 };
 
 export const toggleWhatsAppCapability = async (userId) => {
-    return await axios.put(`https://gstblizbackend.up.railway.app/admin/shop-owners/${userId}/toggle-whatsapp`, {}, getHeaders());
+    return await axios.put(`${API_BASE_URL}/admin/shop-owners/${userId}/toggle-whatsapp`, {}, getHeaders());
 };

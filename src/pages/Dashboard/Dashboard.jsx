@@ -2,18 +2,26 @@ import React, { useEffect, useState, useContext } from 'react';
 import { fetchDashboardData } from '../../Service/Dashboard';
 import { fetchWhatsAppStats } from '../../Service/WhatsAppService';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import FinanceParticles from '../../Componentes/FinanceParticles/FinanceParticles';
 import { AppContext } from '../../context/AppContext';
+import { getAdminContact } from '../../Service/NotificationService';
+import { requestSubscriptionRenewal } from '../../Service/SubscriptionService';
+import axios from 'axios';
 import {
   AreaChart,
   Area,
   BarChart,
   Bar,
+  PieChart,
+  Pie,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
   ResponsiveContainer
 } from 'recharts';
 
@@ -22,7 +30,26 @@ const Dashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [whatsappStats, setWhatsappStats] = useState({ totalSent: 0, failedMessages: 0, successRate: 0.0 });
-  const { settings, updateSettings } = useContext(AppContext);
+  const { settings, updateSettings, subscriptionInfo } = useContext(AppContext);
+  const navigate = useNavigate();
+  const role = localStorage.getItem('role');
+
+  const [adminContact, setAdminContact] = useState(null);
+  const [requestingRenewal, setRequestingRenewal] = useState(false);
+
+  const handleRequestRenewal = async () => {
+    setRequestingRenewal(true);
+    const toastId = toast.loading("Sending subscription renewal request to Super Admin...");
+    try {
+      await requestSubscriptionRenewal();
+      toast.success("Renewal request sent successfully! Super Admin has been notified.", { id: toastId });
+    } catch (error) {
+      console.error("Failed to send renewal request:", error);
+      toast.error(error.response?.data?.message || "Failed to send renewal request.", { id: toastId });
+    } finally {
+      setRequestingRenewal(false);
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -35,6 +62,13 @@ const Dashboard = () => {
           setWhatsappStats(waResponse.data);
         } catch (waError) {
           console.error('Error fetching WhatsApp statistics:', waError);
+        }
+
+        try {
+          const contactRes = await getAdminContact();
+          setAdminContact(contactRes.data);
+        } catch (contactErr) {
+          console.error('Error fetching admin contact:', contactErr);
         }
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -100,6 +134,49 @@ const Dashboard = () => {
 
       <div className="dashboard-container position-relative z-2">
 
+        {/* SUBSCRIPTION STATUS PANEL — ShopOwner / Employee only */}
+        {role !== 'ROLE_SUPERADMIN' && subscriptionInfo && (
+          <div className={`sub-status-panel glass-panel ${subscriptionInfo.isExpired ? 'sub-expired' : subscriptionInfo.remainingDays <= 7 ? 'sub-warning' : 'sub-active'}`}>
+            <div className="sub-status-left">
+              <div className={`sub-status-icon-wrap ${subscriptionInfo.isExpired ? 'icon-expired' : subscriptionInfo.remainingDays <= 7 ? 'icon-warning' : 'icon-active'}`}>
+                <i className={`bi ${subscriptionInfo.isExpired ? 'bi-x-circle-fill' : subscriptionInfo.remainingDays <= 7 ? 'bi-alarm-fill' : subscriptionInfo.isTrial ? 'bi-gift-fill' : 'bi-patch-check-fill'}`}></i>
+              </div>
+              <div>
+                <h4 className="sub-status-heading">
+                  {subscriptionInfo.isExpired
+                    ? (subscriptionInfo.isTrial ? 'Free Trial Expired' : 'Subscription Expired')
+                    : (subscriptionInfo.isTrial ? 'Free Trial Active' : 'Subscription Active')}
+                </h4>
+                <p className="sub-status-sub">
+                  {subscriptionInfo.isExpired
+                    ? 'Billing operations are disabled. Contact Super Admin to renew.'
+                    : subscriptionInfo.remainingDays <= 7
+                    ? `${subscriptionInfo.planName} · Expires in ${subscriptionInfo.remainingDays} day${subscriptionInfo.remainingDays !== 1 ? 's' : ''} on ${subscriptionInfo.expiryDate ? new Date(subscriptionInfo.expiryDate).toLocaleDateString('en-IN') : '—'}`
+                    : `${subscriptionInfo.planName} · Expires on ${subscriptionInfo.expiryDate ? new Date(subscriptionInfo.expiryDate).toLocaleDateString('en-IN') : '—'}`}
+                </p>
+              </div>
+            </div>
+            <div className="sub-status-right d-flex align-items-center gap-3">
+              {!subscriptionInfo.isExpired && (
+                <div className="sub-days-ring">
+                  <span className="sub-days-num">{subscriptionInfo.remainingDays}</span>
+                  <span className="sub-days-label">days left</span>
+                </div>
+              )}
+              {(subscriptionInfo.isExpired || subscriptionInfo.remainingDays <= 7) && (
+                <button 
+                  onClick={handleRequestRenewal} 
+                  className="sub-contact-action border-0" 
+                  disabled={requestingRenewal}
+                >
+                  <i className="bi bi-envelope-fill me-1"></i>
+                  {requestingRenewal ? 'Sending...' : 'Contact Super Admin'}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* STATS OVERVIEW CARDS */}
         <div className="stats-grid">
           {localStorage.getItem("role") === "ROLE_SUPERADMIN" ? (
@@ -109,11 +186,9 @@ const Dashboard = () => {
                   <i className="bi bi-building"></i>
                 </div>
                 <div className="stat-content">
-                  <h3>Total Shops</h3>
+                  <h3>Total Shop Owners</h3>
                   <p>{data.totalShops || 0}</p>
-                  <span className="trend-indicator positive">
-                    Active on platform
-                  </span>
+                  <span className="trend-indicator positive">Registered shops</span>
                 </div>
               </div>
 
@@ -124,24 +199,68 @@ const Dashboard = () => {
                 <div className="stat-content">
                   <h3>Total Users</h3>
                   <p>{data.totalUsers || 0}</p>
-                  <span className="trend-indicator positive">
-                    Staff & Owners
-                  </span>
+                  <span className="trend-indicator positive">Staff & Owners</span>
                 </div>
               </div>
 
               <div className="glass-panel stat-card">
                 <div className="stat-icon-wrapper ticket-glow">
-                  <i className="bi bi-person-check"></i>
+                  <i className="bi bi-patch-check-fill"></i>
                 </div>
                 <div className="stat-content">
-                  <h3>Total Customers</h3>
-                  <p>{data.totalCustomers || 0}</p>
-                  <span className="trend-indicator status-ok">
-                    Registered Clients
-                  </span>
+                  <h3>Active Subscriptions</h3>
+                  <p>{data.activeSubscriptions ?? 0}</p>
+                  <span className="trend-indicator positive">Currently active</span>
                 </div>
               </div>
+
+              <div className="glass-panel stat-card">
+                <div className="stat-icon-wrapper" style={{ background: 'rgba(244,63,94,0.1)', color: '#f43f5e', border: '1px solid rgba(244,63,94,0.2)' }}>
+                  <i className="bi bi-x-circle-fill"></i>
+                </div>
+                <div className="stat-content">
+                  <h3>Expired Subscriptions</h3>
+                  <p>{data.expiredSubscriptions ?? 0}</p>
+                  <span className="trend-indicator" style={{ color: '#f43f5e' }}>Needs renewal</span>
+                </div>
+              </div>
+
+              <div className="glass-panel stat-card">
+                <div className="stat-icon-wrapper" style={{ background: 'rgba(6,182,212,0.1)', color: '#06b6d4', border: '1px solid rgba(6,182,212,0.2)' }}>
+                  <i className="bi bi-currency-rupee"></i>
+                </div>
+                <div className="stat-content">
+                  <h3>Monthly Sub Revenue</h3>
+                  <p>₹{(data.monthlySubscriptionRevenue || 0).toLocaleString('en-IN')}</p>
+                  <span className="trend-indicator status-ok">Monthly plans</span>
+                </div>
+              </div>
+
+              <div className="glass-panel stat-card">
+                <div className="stat-icon-wrapper" style={{ background: 'rgba(139,92,246,0.1)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.2)' }}>
+                  <i className="bi bi-graph-up-arrow"></i>
+                </div>
+                <div className="stat-content">
+                  <h3>Yearly Sub Revenue</h3>
+                  <p>₹{(data.yearlySubscriptionRevenue || 0).toLocaleString('en-IN')}</p>
+                  <span className="trend-indicator" style={{ color: '#8b5cf6' }}>Yearly plans</span>
+                </div>
+              </div>
+
+              {data.expiringWithin7Days > 0 && (
+                <div className="glass-panel stat-card expiry-alert-card" style={{ gridColumn: '1/-1' }}>
+                  <div className="stat-icon-wrapper" style={{ background: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.2)' }}>
+                    <i className="bi bi-alarm-fill"></i>
+                  </div>
+                  <div className="stat-content">
+                    <h3>Expiring Soon</h3>
+                    <p style={{ color: '#f59e0b' }}>{data.expiringWithin7Days}</p>
+                    <span className="trend-indicator" style={{ color: '#f59e0b' }}>
+                      subscription{data.expiringWithin7Days > 1 ? 's expire' : ' expires'} within 7 days
+                    </span>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -203,30 +322,90 @@ const Dashboard = () => {
         {/* ANALYTICS CHARTS SECTION */}
         <div className="charts-grid mb-4">
           {localStorage.getItem("role") === "ROLE_SUPERADMIN" ? (
-            <div className="glass-panel chart-card w-100">
-              <h4 className="chart-title">
-                <i className="bi bi-bar-chart-fill text-indigo me-2"></i>
-                Platform Distribution (Shops & Users)
-              </h4>
-              <div style={{ width: '100%', height: 350 }}>
-                <ResponsiveContainer>
-                  <BarChart data={[
-                    { name: 'Total Shops', Count: data.totalShops || 0 },
-                    { name: 'Total Users', Count: data.totalUsers || 0 },
-                    { name: 'Total Customers', Count: data.totalCustomers || 0 }
-                  ]}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                    <XAxis dataKey="name" stroke="#64748b" tickLine={false} />
-                    <YAxis stroke="#64748b" tickLine={false} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
-                      labelStyle={{ color: '#fff' }}
-                    />
-                    <Bar dataKey="Count" fill="#6366f1" radius={[6, 6, 0, 0]} barSize={50} />
-                  </BarChart>
-                </ResponsiveContainer>
+            <>
+              {/* Subscription Distribution Pie */}
+              <div className="glass-panel chart-card">
+                <h4 className="chart-title">
+                  <i className="bi bi-pie-chart-fill text-indigo me-2"></i>
+                  Subscription Distribution
+                </h4>
+                <div style={{ width: '100%', height: 300 }}>
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: 'Active', value: Number(data.activeSubscriptions) || 0 },
+                          { name: 'Expired', value: Number(data.expiredSubscriptions) || 0 },
+                        ]}
+                        cx="50%" cy="50%" innerRadius={65} outerRadius={100}
+                        dataKey="value" paddingAngle={4}
+                      >
+                        <Cell fill="#10b981" />
+                        <Cell fill="#f43f5e" />
+                      </Pie>
+                      <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                      <Legend iconType="circle" wrapperStyle={{ fontSize: 13, color: '#94a3b8' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
-            </div>
+
+              {/* Revenue by Plan Type Bar */}
+              <div className="glass-panel chart-card">
+                <h4 className="chart-title">
+                  <i className="bi bi-bar-chart-fill text-emerald me-2"></i>
+                  Subscription Revenue
+                </h4>
+                <div style={{ width: '100%', height: 300 }}>
+                  <ResponsiveContainer>
+                    <BarChart
+                      data={[
+                        { name: 'Monthly Plans', Revenue: data.monthlySubscriptionRevenue || 0 },
+                        { name: 'Yearly Plans',  Revenue: data.yearlySubscriptionRevenue  || 0 },
+                      ]}
+                      margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                      <XAxis dataKey="name" stroke="#64748b" tickLine={false} />
+                      <YAxis stroke="#64748b" tickLine={false} tickFormatter={v => `₹${v}`} />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                        formatter={v => [`₹${v.toLocaleString('en-IN')}`, 'Revenue']}
+                      />
+                      <Bar dataKey="Revenue" fill="#10b981" radius={[6, 6, 0, 0]} barSize={60} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Platform Stats Bar */}
+              <div className="glass-panel chart-card" style={{ flex: '0 0 100%' }}>
+                <h4 className="chart-title">
+                  <i className="bi bi-bar-chart-line text-indigo me-2"></i>
+                  Platform Overview
+                </h4>
+                <div style={{ width: '100%', height: 260 }}>
+                  <ResponsiveContainer>
+                    <BarChart data={[
+                      { name: 'Shop Owners', Count: data.totalShops || 0 },
+                      { name: 'All Users',   Count: data.totalUsers || 0 },
+                      { name: 'Customers',   Count: data.totalCustomers || 0 },
+                      { name: 'Active Subs', Count: data.activeSubscriptions || 0 },
+                      { name: 'Expired Subs', Count: data.expiredSubscriptions || 0 },
+                    ]}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                      <XAxis dataKey="name" stroke="#64748b" tickLine={false} />
+                      <YAxis stroke="#64748b" tickLine={false} />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                        labelStyle={{ color: '#fff' }}
+                      />
+                      <Bar dataKey="Count" fill="#6366f1" radius={[6, 6, 0, 0]} barSize={40} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </>
           ) : (
             <>
               {/* Revenue Line Area Chart */}

@@ -103,14 +103,25 @@ const Sidebar = ({ isOpen, onClose }) => {
           )}
 
           {isSuperAdmin && (
-            <NavLink 
-              className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`} 
-              to="/manage-shops"
-              onClick={onClose}
-            >
-              <i className="bi bi-building"></i>
-              <span>Manage Shops</span>
-            </NavLink>
+            <>
+              <NavLink
+                className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+                to="/manage-shops"
+                onClick={onClose}
+              >
+                <i className="bi bi-building"></i>
+                <span>Manage Shops</span>
+              </NavLink>
+
+              <NavLink
+                className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+                to="/subscription-management"
+                onClick={onClose}
+              >
+                <i className="bi bi-journal-bookmark-fill"></i>
+                <span>Subscriptions</span>
+              </NavLink>
+            </>
           )}
 
           {(isShopOwner || isEmployee) && (

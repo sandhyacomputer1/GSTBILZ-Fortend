@@ -9,7 +9,7 @@ const Header = ({ onToggleSidebar }) => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { setAuthData, shopProfile, theme, toggleTheme } = useContext(AppContext);
+  const { setAuthData, shopProfile, theme, toggleTheme, subscriptionInfo, auth } = useContext(AppContext);
 
   const logout = (e) => {
     if (e) e.preventDefault();
@@ -68,6 +68,40 @@ const Header = ({ onToggleSidebar }) => {
       </div>
 
       <div className="d-flex align-items-center gap-3">
+        {/* Subscription Status Badge */}
+        {auth?.role !== 'ROLE_SUPERADMIN' && subscriptionInfo && (
+          <div 
+            className="d-none d-md-flex align-items-center gap-2 px-3 py-1 rounded-pill border fw-semibold" 
+            style={{ 
+              fontSize: '12px',
+              backgroundColor: subscriptionInfo.isExpired 
+                ? 'rgba(244, 63, 94, 0.08)' 
+                : subscriptionInfo.remainingDays <= 7 
+                ? 'rgba(245, 158, 11, 0.08)' 
+                : 'rgba(16, 185, 129, 0.08)',
+              color: subscriptionInfo.isExpired 
+                ? '#f43f5e' 
+                : subscriptionInfo.remainingDays <= 7 
+                ? '#f59e0b' 
+                : '#10b981',
+              borderColor: subscriptionInfo.isExpired 
+                ? 'rgba(244, 63, 94, 0.2)' 
+                : subscriptionInfo.remainingDays <= 7 
+                ? 'rgba(245, 158, 11, 0.2)' 
+                : 'rgba(16, 185, 129, 0.2)'
+            }}
+          >
+            <i className={`bi ${subscriptionInfo.isExpired ? 'bi-x-circle-fill' : subscriptionInfo.remainingDays <= 7 ? 'bi-alarm-fill' : subscriptionInfo.isTrial ? 'bi-gift-fill' : 'bi-patch-check-fill'}`}></i>
+            <span>
+              {subscriptionInfo.isExpired
+                ? 'Subscription Expired'
+                : subscriptionInfo.isTrial
+                ? `Trial: ${subscriptionInfo.remainingDays}d left`
+                : `${subscriptionInfo.planName}: ${subscriptionInfo.remainingDays}d left`}
+            </span>
+          </div>
+        )}
+
         {/* Theme Toggle Button */}
         <button
           className="btn btn-link p-0 border-0 theme-toggle-btn d-flex align-items-center justify-content-center"

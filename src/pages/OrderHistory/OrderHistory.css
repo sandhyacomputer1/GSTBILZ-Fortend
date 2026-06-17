@@ -32,11 +32,11 @@
 }
 
 .orders-history-table thead th {
-    background: rgba(15, 23, 42, 0.65) !important;
+    background: var(--bg-obsidian) !important;
     color: var(--text-secondary) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-top: 1px solid var(--border-glass) !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    border-left: 1px solid var(--border-glass) !important;
     font-weight: 600;
     text-transform: uppercase;
     font-size: 0.72rem;
@@ -46,12 +46,12 @@
 }
 
 .orders-history-table thead th:first-child {
-    border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-left: 1px solid var(--border-glass) !important;
     border-radius: 8px 0 0 8px;
 }
 
 .orders-history-table thead th:last-child {
-    border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-right: 1px solid var(--border-glass) !important;
     border-radius: 0 8px 8px 0;
 }
 
@@ -60,11 +60,11 @@
 }
 
 .orders-history-table tbody td {
-    background: rgba(15, 23, 42, 0.4) !important;
+    background: var(--bg-card-dark) !important;
     color: var(--text-primary);
-    border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-top: 1px solid var(--border-glass) !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    border-left: 1px solid var(--border-glass) !important;
     padding: 16px 20px;
     vertical-align: middle;
     text-align: center;
@@ -72,7 +72,7 @@
 }
 
 .orders-history-table tbody tr td:first-child {
-    border-left: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-left: 1px solid var(--border-glass) !important;
     border-radius: 12px 0 0 12px;
     font-family: monospace;
     font-weight: 600;
@@ -80,7 +80,7 @@
 }
 
 .orders-history-table tbody tr td:last-child {
-    border-right: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-right: 1px solid var(--border-glass) !important;
     border-radius: 0 12px 12px 0;
 }
 
@@ -123,9 +123,9 @@
 }
 
 .payment-method-badge {
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    color: #a5b4fc;
+    background: var(--neon-indigo-glow) !important;
+    border: 1px solid rgba(99, 102, 241, 0.2) !important;
+    color: var(--neon-indigo) !important;
     padding: 4px 10px;
     border-radius: 8px;
     font-size: 0.75rem;
@@ -194,18 +194,18 @@
 .search-bar-container .search-icon {
     position: absolute;
     left: 14px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary) !important;
     font-size: 0.9rem;
     pointer-events: none;
     transition: color 0.2s ease;
 }
 
 .search-bar-container .search-input {
-    background: rgba(30, 41, 59, 0.3) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: var(--bg-card-dark) !important;
+    border: 1px solid var(--border-glass) !important;
     border-radius: 10px !important;
     padding: 10px 16px 10px 40px !important;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
     font-size: 0.85rem;
     font-weight: 500;
     transition: all 0.2s ease !important;
@@ -214,13 +214,14 @@
 }
 
 .search-bar-container .search-input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-secondary) !important;
+    opacity: 0.6;
 }
 
 .search-bar-container .search-input:focus {
-    background: rgba(30, 41, 59, 0.5) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+    background: var(--bg-card-dark) !important;
+    border-color: var(--neon-indigo) !important;
+    box-shadow: 0 0 0 3px var(--neon-indigo-glow) !important;
 }
 
 .search-bar-container:focus-within .search-icon {

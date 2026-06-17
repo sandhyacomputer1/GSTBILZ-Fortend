@@ -1,3 +1,78 @@
+.manage-items-list-container {
+    min-height: 0;
+}
+
+/* ── Items Grid ── */
+.items-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    align-content: start;
+}
+
+/* ── Item Card ── */
+.manage-item-card {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    overflow: hidden;
+    min-height: 280px;
+}
+
+.manage-item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    border-color: rgba(99, 102, 241, 0.35) !important;
+}
+
+/* ── Card Image ── */
+.card-image-container {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.manage-item-img-card {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+/* ── Description truncation (2 lines) ── */
+.item-desc-trunc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+/* ── Icon-only button size ── */
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px !important;
+    flex-shrink: 0;
+}
+
+/* ── Empty state spans full grid width ── */
+.grid-span-all {
+    grid-column: 1 / -1;
+}
+
 .manage-item-row {
     background: rgba(15, 23, 42, 0.4) !important;
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -68,9 +143,10 @@
     background: rgba(99, 102, 241, 0.15) !important;
     border: 1px solid rgba(99, 102, 241, 0.3) !important;
     color: #a5b4fc !important;
-    transition: all 0.2s ease;
     border-radius: 8px !important;
-    padding: 10px 16px !important;
+    padding: 7px 12px !important;
+    white-space: nowrap;
+    transition: all 0.2s ease;
 }
 
 .item-import-btn:hover {
@@ -83,13 +159,30 @@
     background: rgba(16, 185, 129, 0.1) !important;
     border: 1px solid rgba(16, 185, 129, 0.25) !important;
     color: #34d399 !important;
-    transition: all 0.2s ease;
     border-radius: 8px !important;
-    padding: 10px 16px !important;
+    padding: 7px 12px !important;
+    white-space: nowrap;
+    transition: all 0.2s ease;
 }
 
 .item-export-btn:hover {
     background: #10b981 !important;
     color: #ffffff !important;
     box-shadow: 0 0 12px rgba(16, 185, 129, 0.4) !important;
+}
+
+.toolbar-add-product-btn {
+    background: #6366f1 !important;
+    border: 1px solid #6366f1 !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    padding: 7px 14px !important;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.toolbar-add-product-btn:hover {
+    background: #4f46e5 !important;
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.4) !important;
 }

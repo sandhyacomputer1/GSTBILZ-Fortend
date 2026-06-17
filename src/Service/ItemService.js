@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "./api";
 
-const BASE = "https://gstblizbackend.up.railway.app";
+const BASE = API_BASE_URL;
 const authHeader = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
 
 // ─── CRUD ────────────────────────────────────────────────────────────────────────
@@ -9,7 +10,7 @@ export const addItem = async (item) =>
     axios.post(`${BASE}/admin/items`, item, { headers: authHeader() });
 
 export const updateItem = async (itemId, formData) =>
-    axios.put(`${BASE}/admin/items/${itemId}`, formData, { headers: { ...authHeader(), "Content-Type": "multipart/form-data" } });
+    axios.put(`${BASE}/admin/items/${itemId}`, formData, { headers: authHeader() });
 
 export const deleteItem = async (itemId) =>
     axios.delete(`${BASE}/admin/items/${itemId}`, { headers: authHeader() });
@@ -25,7 +26,7 @@ export const fetchItems = async () =>
  */
 export const previewImport = async (formData) =>
     axios.post(`${BASE}/admin/items/import/preview`, formData, {
-        headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
+        headers: authHeader(),
     });
 
 // ─── IMPORT: PHASE 2 — CONFIRM ────────────────────────────────────────────────────
@@ -72,17 +73,17 @@ export const getImportHistory = async () =>
 
 export const importZipImages = async (formData) =>
     axios.post(`${BASE}/admin/items/import/images`, formData, {
-        headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
+        headers: authHeader(),
     });
 
 // ─── LEGACY (kept for backward-compat) ────────────────────────────────────────────
 
 export const importExcelItems = async (formData) =>
     axios.post(`${BASE}/admin/items/import-excel`, formData, {
-        headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
+        headers: authHeader(),
     });
 
 export const importPdfItems = async (formData) =>
     axios.post(`${BASE}/admin/items/import-pdf`, formData, {
-        headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
+        headers: authHeader(),
     });

@@ -1,11 +1,16 @@
 import React, { useContext } from 'react'
 import './Item.css'
 import { AppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const Item = ({ itemName, itemPrice, itemImage, itemId }) => {
 
-  const { addToCart } = useContext(AppContext);
+  const { addToCart, subscriptionInfo } = useContext(AppContext);
   const handleAddToCart = () => {
+    if (subscriptionInfo?.isExpired) {
+      toast.error("Your subscription has expired. Billing operations are disabled.");
+      return;
+    }
     addToCart({
       name: itemName,
       price: itemPrice,
@@ -16,28 +21,26 @@ const Item = ({ itemName, itemPrice, itemImage, itemId }) => {
 
   return (
 
-    <div className='p-3 bg-dark rounded shadow-sm h-100 d-flex align-items-center item-card'>
-
-      <div style={{ position: "relative", marginRight: "15px" }}>
-        <img src={itemImage} alt={itemName} className='item-image' />
+    <div className='item-card p-3 rounded-4 d-flex align-items-center justify-content-between gap-3 h-100 shadow-sm'>
+      <div className="d-flex align-items-center gap-3 min-width-0">
+        <div className="item-image-wrapper">
+          <img 
+            src={itemImage || 'https://placehold.co/150x150/1e293b/ffffff/png?text=No+Image'} 
+            alt={itemName} 
+            className='item-image' 
+          />
+        </div>
+        <div className='min-width-0'>
+          <h6 className='item-title mb-1 text-truncate'>{itemName}</h6>
+          <p className='item-price mb-0 fw-bold'>
+            ₹{itemPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+          </p>
+        </div>
       </div>
 
-      <div className='flex-grow-1 ms-2'>
-        <h6 className='mb-1 text-light'>{itemName}</h6>
-        <p className='mb-0 fw-bold text-light'>
-          ₹{itemPrice}
-        </p>
-      </div>
-
-      <div
-        className="d-flex flex-column justify-content-between align-items-center ms-3"
-        style={{ height: "100%" }}
-      >
-        <i className="bi bi-cart-plus fs-4 text-warning"></i>
-        <button className="btn btn-success btn-sm" onClick={handleAddToCart}>
-          <i className="bi bi-plus"></i>
-        </button>
-      </div>
+      <button className="item-add-btn" onClick={handleAddToCart} title="Add to Cart">
+        <i className="bi bi-cart-plus fs-5"></i>
+      </button>
     </div>
   )
 }

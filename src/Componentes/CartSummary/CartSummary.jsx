@@ -14,7 +14,7 @@ import { sendWhatsAppBill } from '../../Service/WhatsAppService';
  */
 const CartSummary = ({ customerName, mobileNumber, setCustomerName, setMobileNumber }) => {
 
-  const { cartItem, clearCart, orderDetails, setOrderDetails, showPopup, setShowPopup, settings } = useContext(AppContext);
+  const { cartItem, clearCart, orderDetails, setOrderDetails, showPopup, setShowPopup, settings, subscriptionInfo } = useContext(AppContext);
 
   // States to keep track of payment lifecycle and receipt generation
   const [isProcessing, setIsProcessing] = useState(false);
@@ -398,7 +398,7 @@ const CartSummary = ({ customerName, mobileNumber, setCustomerName, setMobileNum
         <button
           className='btn btn-success flex-grow-1 py-1.5'
           onClick={() => completePayment('CASH')}
-          disabled={isProcessing}
+          disabled={isProcessing || subscriptionInfo?.isExpired}
           style={{ fontSize: '13px', fontWeight: 'bold' }}
         >
           {isProcessing ? 'Processing...' : 'Cash'}
@@ -406,7 +406,7 @@ const CartSummary = ({ customerName, mobileNumber, setCustomerName, setMobileNum
         <button
           className='btn btn-primary flex-grow-1 py-1.5'
           onClick={() => completePayment('UPI')}
-          disabled={isProcessing}
+          disabled={isProcessing || subscriptionInfo?.isExpired}
           style={{ fontSize: '13px', fontWeight: 'bold' }}
         >
           {isProcessing ? 'Processing...' : 'UPI'}
@@ -417,7 +417,7 @@ const CartSummary = ({ customerName, mobileNumber, setCustomerName, setMobileNum
         <button
           className='btn btn-warning flex-grow-1 py-2'
           onClick={placeOrder}
-          disabled={isProcessing || (!orderDetails && selectedPaymentMethod !== 'CASH')}
+          disabled={isProcessing || subscriptionInfo?.isExpired || (!orderDetails && selectedPaymentMethod !== 'CASH')}
           style={{ fontSize: '13px', fontWeight: 'bold' }}
         >
           Place Order & Print

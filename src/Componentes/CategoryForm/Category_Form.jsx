@@ -4,7 +4,7 @@ import { AppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 import { addCategory, updateCategory } from '../../Service/CategoryService';
 
-const Category_Form = () => {
+const Category_Form = ({ onClose }) => {
 
     const { categories, setCategories, editingCategory, setEditingCategory } = useContext(AppContext);
     const [loading, setLoading] = useState(false);
@@ -51,7 +51,9 @@ const Category_Form = () => {
 
         const formData = new FormData();
         formData.append('category', JSON.stringify(data));
-        formData.append('file', image);
+        if (image) {
+            formData.append('file', image);
+        }
 
         try {
             let response;
@@ -61,12 +63,14 @@ const Category_Form = () => {
                     setCategories(categories.map(cat => cat.categoryId === editingCategory.categoryId ? response.data : cat));
                     toast.success('Category updated successfully');
                     setEditingCategory(null);
+                    onClose?.();
                 }
             } else {
                 response = await addCategory(formData);
                 if (response.status === 201) {
                     setCategories([...categories, response.data]);
                     toast.success('Category added successfully');
+                    onClose?.();
                 }
             }
 
@@ -87,20 +91,9 @@ const Category_Form = () => {
     };
 
     return (
-        <div className='category-form-container' style={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+        <div className='category-form-container'>
             <div className='mx-1'>
                 <form onSubmit={onSubmitHandler}>
-
-                    <div className='mb-3'>
-                        <div className='d-flex justify-content-between align-items-center mb-2'>
-                            <h6 className='mb-0 text-white'>{editingCategory ? 'Edit Category' : 'Add Category'}</h6>
-                            {editingCategory && (
-                                <button type="button" className='btn btn-sm btn-outline-secondary' onClick={() => setEditingCategory(null)}>
-                                    Cancel Edit
-                                </button>
-                            )}
-                        </div>
-                    </div>
 
                     <div className='mb-3 text-center'>
                         <label htmlFor='image' className='form-label cursor-pointer p-3 rounded d-inline-block border border-dashed border-secondary' style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
@@ -166,13 +159,26 @@ const Category_Form = () => {
                         </div>
                     </div>
 
-                    <button
-                        type='submit'
-                        disabled={loading}
-                        className='btn settings-save-btn w-100 py-2.5 fw-bold'
-                    >
-                        {loading ? 'Saving...' : (editingCategory ? 'Update Category' : 'Save Category')}
-                    </button>
+                    <div className='d-flex gap-2 mt-4'>
+                        <button
+                            type='button'
+                            className='btn item-form-cancel-btn flex-grow-1 fw-semibold py-2'
+                            onClick={() => {
+                                setEditingCategory(null);
+                                onClose?.();
+                            }}
+                            disabled={loading}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type='submit'
+                            className='btn settings-save-btn flex-grow-1 fw-bold py-2'
+                            disabled={loading}
+                        >
+                            {loading ? 'Saving...' : (editingCategory ? 'Update Category' : 'Save Category')}
+                        </button>
+                    </div>
 
                 </form>
             </div>

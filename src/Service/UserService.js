@@ -1,25 +1,21 @@
 import axios from 'axios';
+import { API_BASE_URL } from "./api";
 
 export const addUser = async(formData) => {
-    return await axios.post(`https://gstblizbackend.up.railway.app/admin/register`, formData, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
+    return await axios.post(`${API_BASE_URL}/admin/register`, formData, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
 }
 
 export const fetchUserProfile = async () => {
-    return await axios.get(`https://gstblizbackend.up.railway.app/admin/profile`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
+    return await axios.get(`${API_BASE_URL}/admin/profile`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
 }
 
-// export const deleteUser = async(id) =>{ 
-//     return await axios.delete(`http://localhost:8080/admin/users/${id}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
-// }
-
 export const fetchUsers = async () => { 
-    return await axios.get(`https://gstblizbackend.up.railway.app/admin/users`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
+    return await axios.get(`${API_BASE_URL}/admin/users`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}})
 }
 
 export const deleteUser = async(id) => {
-
     return await axios.delete(
-        `https://gstblizbackend.up.railway.app/admin/user/${id}`,
+        `${API_BASE_URL}/admin/user/${id}`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -30,7 +26,7 @@ export const deleteUser = async(id) => {
 
 export const updateUser = async (id, formData) => {
     return await axios.put(
-        `https://gstblizbackend.up.railway.app/admin/user/${id}`,
+        `${API_BASE_URL}/admin/user/${id}`,
         formData,
         {
             headers: {
@@ -42,7 +38,7 @@ export const updateUser = async (id, formData) => {
 
 export const updateProfile = async (formData) => {
     return await axios.put(
-        `https://gstblizbackend.up.railway.app/admin/profile`,
+        `${API_BASE_URL}/admin/profile`,
         formData,
         {
             headers: {
